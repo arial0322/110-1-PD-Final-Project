@@ -6,10 +6,10 @@
     1. generate a full sudoku-map
   - Map Deleter: 
     1. dig different numbers of hole according to different stage of difficulty
-    2. make sure the unbalanced sudoku-map
+    2. make sure the unbalanced sudoku-map has unique solution
   - Sudoku Solver: 
-    1. given a unbalanced sudoku map, find the only solution
-    2. (*optional) record each step of filling empty entry for displaying if needed
+    1. given a unbalanced sudoku map, find the unique solution
+    2. (*optional) record each step of filling empty entry for displaying if needed [(refer.)](https://s4.51cto.com/images/blog/202012/23/ef33e0fa5bcae1e05d9108a8473003bb.gif)
 - Front-End
   - Graphical User Interface: users are available to operate with these function:
     1. clcik to start the game and see the unbalanced sudoku-map
