@@ -99,60 +99,46 @@ bool check()
 // check if the map has been filled out
 bool isMapFull()
 {
-  /*
-	int flag[9*9] = {0};
-
-	for(int i = 0; i < 9; i++)
-		for(int j = 0; j < 9; j++)
-			if(map[i][j] != 0)
-				flag[i*9 + j] = 1;
-
-	for(int i = 0; i < 81; i++)
-		if(flag[i] == 0)
-			return false;
-
-	return true;*/
-
   for(int i = 0; i < 9; i++)
-    for(int j = 0; j < 9; j++)
-      if(map[i][j] == 0)
-        return false;
+      for(int j = 0; j < 9; j++)
+          if(map[i][j] == 0)
+              return false;
   return true;
 }
 
 // check if all the numbers in one-dimension array are non-zero
 bool checkIsNumberFull(int arr[9])
 {
-	for(int i = 0; i < 9; i++)
-		if(arr[i] == 0)
-			return false;
+    for(int i = 0; i < 9; i++)
+	if(arr[i] == 0)
+	    return false;
 	return true;
 }
 
 // return a random number between [1, 9]
 int getRandNumber()
 {
-	return rand()%9 + 1;
+    return rand()%9 + 1;
 }
 
 void generateMap(int curIndex)
 {
-  // if the map hasn't been filled out, then continue cram number in
-	if(isMapFull())
-	{
-		if(counter <= maxMapNumber)
-		{
-			cout << "SudoMap " << counter++ << endl;
-			showMap();
-			return;
-		}
+    // if the map hasn't been filled out, then continue cram number in
+    if(isMapFull())
+    {
+	if(counter <= maxMapNumber)
+	    {
+	        cout << "SudoMap " << counter++ << endl;
+		showMap();
+		return;
+	    }
 	}
 
-  // try assign number 1~9 to the empty entry
-	srand((unsigned int)time(0));
-	for(int i = 1; i < 10; i++)
-	{
-		map[(int)(curIndex / 9)][curIndex % 9] = i;
+    // try assign number 1~9 to the empty entry
+    srand((unsigned int)time(0));
+    for(int i = 1; i < 10; i++)
+    {
+	map[(int)(curIndex / 9)][curIndex % 9] = i;
 		if(check())	// if curNumber is legal.
 		{
 			// cout << "curLevel:" << curIndex << endl;
