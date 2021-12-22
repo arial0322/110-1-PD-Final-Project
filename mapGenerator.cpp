@@ -154,31 +154,31 @@ void generateMap(int curIndex)
 // assign numbers to the first row
 void generateRow1()
 {
-	int numberFlag[9] = {0};
-	int curNumber;
-	int counter = 0;
+    int numberFlag[9] = {0};
+    int curNumber;
+    int counter = 0;
 
-	srand((unsigned)time(NULL));
-	while(!checkIsNumberFull(numberFlag))
+    srand((unsigned)time(NULL));
+    while(!checkIsNumberFull(numberFlag))
+    {
+	curNumber = getRandNumber();
+	if(numberFlag[curNumber - 1] == 0)
 	{
-		curNumber = getRandNumber();
-		if(numberFlag[curNumber - 1] == 0)
-		{
-			numberFlag[curNumber - 1] = 1;
-			map[counter / 9][counter % 9] = curNumber;  // ** why not change "counter / 9" to 0?
-			counter++;
-		}
+	    numberFlag[curNumber - 1] = 1;
+	    map[counter / 9][counter % 9] = curNumber;  // ** why not change "counter / 9" to 0?
+	    counter++;
 	}
+    }
 }
 
 int main()
 {
-	cout << "enter the number of map you want to generate: ";
-	cin >> maxMapNumber;
-	cout << "generating first line of the map..." << endl;
-	generateRow1();
-	cout << "generating the full map..." << endl;
-	generateMap(9);
+    cout << "enter the number of map you want to generate: ";
+    cin >> maxMapNumber;
+    cout << "generating first line of the map..." << endl;
+    generateRow1();
+    cout << "generating the full map..." << endl;
+    generateMap(9);
 
-	return 0;
+    return 0;
 }
