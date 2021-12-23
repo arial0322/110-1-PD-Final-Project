@@ -139,16 +139,16 @@ void generateMap(int curIndex)
     for(int i = 1; i < 10; i++)
     {
 	map[(int)(curIndex / 9)][curIndex % 9] = i;
-		if(check())	// if curNumber is legal.
-		{
-			// cout << "curLevel:" << curIndex << endl;
-			// showMap();
-			generateMap(curIndex + 1);
-		}
-	}
-	map[(int)(curIndex / 9)][curIndex % 9] = 0;
+	    if(check())	// if curNumber is legal.
+	    {
+		// cout << "curLevel:" << curIndex << endl;
+		// showMap();
+		generateMap(curIndex + 1);
+	    }
+    }
+    map[(int)(curIndex / 9)][curIndex % 9] = 0;
 
-	return;
+    return;
 }
 
 // assign numbers to the first row
