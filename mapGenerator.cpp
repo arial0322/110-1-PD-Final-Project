@@ -4,7 +4,7 @@
   using namespace std;
 
   void showMap(int map[9][9]);
-  bool check();
+  bool isMapLegal();
   bool isMapFull();
   bool checkIsNumberFull(int arr[9]);
   int getRandNumber();
@@ -12,8 +12,6 @@
   void generateRow1();
 
   int map[9][9] = {0};      // initialise map
-  int counter = 1;          // the number of map already generated
-  int maxMapNumber = 1;     // how many map you want to generate
 
   int main()
   {
@@ -34,8 +32,8 @@
     cout << endl;
   }
 
-  // check if the entry is legal
-  bool check()
+  // check whether the map is legal (used after adding a entry)
+  bool isMapLegal()
   {
     // check the row
     for(int i = 0; i < 9; i++)
@@ -83,7 +81,7 @@
     return true;
   }
 
-  // check if the map has been filled out
+  // check whether the map has been filled in
   bool isMapFull()
   {
     for(int i = 0; i < 9; i++)
@@ -120,7 +118,7 @@
     {
       int jd = 1;
       map[(int)(curIndex / 9)][curIndex % 9] = i;
-      if(check())  // if curNumber is legal.
+      if(isMapLegal())  // if after adding curNumber, the map is legal
         jd = generateMap(curIndex + 1);
       if(jd == 0)
         return 0;
