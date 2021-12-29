@@ -1,5 +1,13 @@
 # 110-1-PD-Final-Project
 
+## Function of map generator
+- restore the map data in a two-dimensional integer array: map[9][9]
+- the empty entries are represented as 0 (int.)
+- the original map (ie. solution) is named **map**, and the unbalanced map is named **map_duplicate**.
+- please apply the solution-finding algorithm on **map_duplicate**
+
+
+---
 ## Outline
 - Back-End
   - Map Generator: 
