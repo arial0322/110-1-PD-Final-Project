@@ -4,7 +4,7 @@
 - restore the map data in a two-dimensional integer array: map[9][9]
 - the empty entries are represented as 0
 - the original map (ie. solution) is named _**map**_, and the unbalanced map is named **_map_unbalanced_**.
-- please apply the solution-finding algorithm on **_map_duplicate_**
+- please apply the solution-finding algorithm on **_map_unbalanced_**
 
 
 ---
