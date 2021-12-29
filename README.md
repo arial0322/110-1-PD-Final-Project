@@ -1,11 +1,11 @@
 # 110-1-PD-Final-Project
 
 ## function of **_mapGenerator.cpp_**
-- restore the map data in a two-dimensional integer array: map[9][9]
+- restore the map data in a two-dimensional 9x9 integer array
+- the original map (ie. solution) is named _**map**_, and the unbalanced map is named **_puzzle_**
 - the empty entries are represented as 0
-- the original map (ie. solution) is named _**map**_, and the unbalanced map is named **_map_unbalanced_**.
-- please apply the solution-finding algorithm on **_map_unbalanced_**
-
+- please apply the solution-finding algorithm on **_puzzle_**
+- if the **_puzzle_** is illegal (that means the puzzle has multiple solutions or no solutions), please use **_gen_puzzle()_** to generate another puzzle
 
 ---
 ## Project Outline
