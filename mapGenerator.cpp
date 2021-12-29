@@ -3,6 +3,7 @@
 #include <ctime>        // time()
 using namespace std;
  
+/* ==== For generating map ==== */
 void showMap(int map[9][9]);
 bool isMapLegal();
 bool isMapFull();
@@ -10,57 +11,36 @@ bool checkIsNumberFull(int arr[9]);
 int getRandNumber();
 int generateMap(int curIndex);
 void generateRow1();
+/* ==== For generating puzzle ==== */
 int getRandNumberForEmptyIndex();
 int determine_emptyCnt(int level);
- 
-int map[9][9] = {0};      // initialise original map.
-int map_unbalanced[9][9] = {0};      // for generating puzzle.
+void gen_puzzle(int emptyCnt);
+
 const int SIZE = 9;
+int map[9][9] = {0};              // initialise original map.
+int puzzle[9][9] = {0};   // for generating puzzle.
  
 int main()
 {
   srand(time(nullptr));
  
+  // generate the original map
   generateRow1();
   generateMap(9);
-  // copy.
-  for(int i = 0; i < 9; i++)
-    for(int j = 0; j < 9; j++)
-      map_unbalanced[i][j] = map[i][j];
+  cout << "This is the original map:\n";
   showMap(map);
  
+  // let the user type in the difficulty (can be edited on GUI)
   int level = 0;
- 
   cout << "Key in the level of difficulty you want. 1 for easy, 2 for normal, 3 for hard: ";
- 
   cin >> level;
  
-  // Determine how many entries are empty.
+  // generate the puzzle
   int emptyCnt = determine_emptyCnt(level);
+  gen_puzzle(emptyCnt);
+  cout << "This is the puzzle:\n";
+  showMap(puzzle);
  
-  // Debug.
-  //cout << emptyCnt << "\n";
- 
-  // Generate puzzle.
-  for(int i = 0; i < emptyCnt; i++){
-    int emptyIndex = getRandNumberForEmptyIndex();
-    while(map_unbalanced[emptyIndex / 9][emptyIndex % 9] == 0)
-      emptyIndex = getRandNumberForEmptyIndex();
-    map_unbalanced[emptyIndex / 9][emptyIndex % 9] = 0;
-  }
- 
-  // Show the result.
-  showMap(map_unbalanced);
- 
-  // debug.
-  /*int cnt = 0;
-    
-  for(int i = 0; i < 9; i++)
-    for(int j = 0; j < 9; j++)
-      if(map[i][j] == 0)
-        cnt++;
-  cout << "\n0's counts: " << cnt;*/
-    
   return 0;
 }
  
@@ -79,44 +59,44 @@ void showMap(int map[9][9])
 // check whether the map is legal (used after adding a entry)
 bool isMapLegal()
 {
-// check the row
-for(int i = 0; i < 9; i++)
-{
-  int tempArr[10] = {0};  // recording whether the number is used in this row
-  for(int j = 0; j < 9; j++)
-    if(map[i][j] != 0)
-      if(tempArr[map[i][j]] == 0)
-        tempArr[map[i][j]] = 1;
-      else
-        return false;
-}
- 
-//check the col
-for(int j = 0; j < 9; j++)
-{
-  int tempArr[10] = {0};
+  // check the row
   for(int i = 0; i < 9; i++)
-    if(map[i][j] != 0)
-      if(tempArr[map[i][j]] == 0)
-        tempArr[map[i][j]] = 1;
-      else
-        return false;
-}
+  {
+    int tempArr[10] = {0};  // recording whether the number is used in this row
+    for(int j = 0; j < 9; j++)
+      if(map[i][j] != 0)
+        if(tempArr[map[i][j]] == 0)
+          tempArr[map[i][j]] = 1;
+        else
+          return false;
+  }
  
-//check the 9-box
-for(int m = 0; m < 9; m += 3)
-  for(int n = 0; n < 9; n += 3)
+  //check the col
+  for(int j = 0; j < 9; j++)
   {
     int tempArr[10] = {0};
-    for(int i = 0; i < 3; i++)
-      for(int j = 0; j < 3; j++)
-        if(map[m + i][n + j] != 0)
-          if(tempArr[map[m + i][n + j]] == 0)
-            tempArr[map[m + i][n + j]] = 1;
-          else
-            return false;
+    for(int i = 0; i < 9; i++)
+      if(map[i][j] != 0)
+        if(tempArr[map[i][j]] == 0)
+          tempArr[map[i][j]] = 1;
+        else
+          return false;
   }
-return true;
+ 
+  //check the 9-box
+  for(int m = 0; m < 9; m += 3)
+    for(int n = 0; n < 9; n += 3)
+    {
+      int tempArr[10] = {0};
+      for(int i = 0; i < 3; i++)
+        for(int j = 0; j < 3; j++)
+          if(map[m + i][n + j] != 0)
+            if(tempArr[map[m + i][n + j]] == 0)
+              tempArr[map[m + i][n + j]] = 1;
+            else
+              return false;
+    }
+  return true;
 }
  
 // check whether the map has been filled in
@@ -184,11 +164,12 @@ void generateRow1()
     }
   }
 }
-int getRandNumberForEmptyIndex(){
+int getRandNumberForEmptyIndex()
+{
   return rand() % (SIZE * SIZE);
 }
-int determine_emptyCnt(int level){
- 
+int determine_emptyCnt(int level)
+{
   int min = 0, max = 0;
  
   if(level == 1){
@@ -205,4 +186,28 @@ int determine_emptyCnt(int level){
   }
  
   return rand() % (max - min + 1) + min;
+}
+void copy(int puzzle[9][9], int map[9][9])
+{
+  // copy.
+  for(int i = 0; i < 9; i++)
+    for(int j = 0; j < 9; j++)
+      puzzle[i][j] = map[i][j];
+}
+
+void gen_puzzle(int emptyCnt)
+{
+  // copy.
+  for(int i = 0; i < 9; i++)
+    for(int j = 0; j < 9; j++)
+      puzzle[i][j] = map[i][j];
+  
+ // Generate puzzle.
+  for(int i = 0; i < emptyCnt; i++)
+  {
+    int emptyIndex = getRandNumberForEmptyIndex();
+    while(puzzle[emptyIndex / 9][emptyIndex % 9] == 0)
+      emptyIndex = getRandNumberForEmptyIndex();
+    puzzle[emptyIndex / 9][emptyIndex % 9] = 0;
+  }
 }
