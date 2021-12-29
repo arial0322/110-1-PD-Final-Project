@@ -8,7 +8,7 @@
 
 
 ---
-## Outline
+## Project Outline
 - Back-End
   - Map Generator: 
     1. generate a full sudoku-map
