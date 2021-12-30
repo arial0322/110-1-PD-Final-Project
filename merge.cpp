@@ -41,8 +41,9 @@ int main()
   cout << "Key in the level of difficulty you want. 1 for easy, 2 for normal, 3 for hard: ";
   cin >> level;
   
+  // generate the puzzle and check solutions
   int emptyCnt = determine_emptyCnt(level);
-  int genNum = 0;  // 計算生成幾次puzzle 
+  int genNum = 0;  // how much puzzle generated before we get a valid one
   checkValidation(puzzle, emptyCnt, genNum);
  
   return 0;
@@ -216,28 +217,33 @@ void gen_puzzle(int emptyCnt)
   }
 }
 
-bool SameRow(int x[2], int y[2]){
-	return (x[0] == y[0]);
+bool SameRow(int x[2], int y[2])
+{
+  return (x[0] == y[0]);
 }
 
-bool SameCol(int x[2], int y[2]){
-	return (x[1] == y[1]);
+bool SameCol(int x[2], int y[2])
+{
+  return (x[1] == y[1]);
 }
 
-bool SameBlock(int x[2], int y[2]){
-	return (x[0] / 3 == y[0] / 3 and x[1] / 3 == y[1] / 3);
+bool SameBlock(int x[2], int y[2])
+{
+  return (x[0] / 3 == y[0] / 3 and x[1] / 3 == y[1] / 3);
 }
 
-void solveSudoku(int board[9][9], int ans[9][9], int ans_num[1]){
+// check the solution
+void solveSudoku(int board[9][9], int ans[9][9], int ans_num[1])
+{
 	int idx[2] = {-1};
 	
 	for(int i = 0; i < 9; i++)
-	    for(int j = 0; j < 9; j++)
-		    if(board[i][j] == 0){
-		        idx[0] = i;
-		        idx[1] = j;
-		        break;
-			}
+    for(int j = 0; j < 9; j++)
+	    if(board[i][j] == 0){
+        idx[0] = i;
+        idx[1] = j;
+        break;
+		  }
 
 	if(idx[0] != -1 and idx[1] != -1){
 		int exclude[9] = {0};
@@ -248,59 +254,65 @@ void solveSudoku(int board[9][9], int ans[9][9], int ans_num[1]){
 	    		int loc[2] = {i, j}; 
 	    		
 	    		if((SameRow(idx, loc) or SameCol(idx, loc) or SameBlock(idx, loc)) and (board[i][j] != 0)){
-	                int count = exclude_num;
-					for(int k = 0; k <= count; k++){
-						if(exclude[k] == board[i][j])
-	    		            break;
-		                else
-		                	if(k == count){
-		                		exclude[exclude_num] = board[i][j];
-	    		                exclude_num += 1;
-							 }
-					}
-				}
-			}
+            int count = exclude_num;
+            
+						for(int k = 0; k <= count; k++){
+							if(exclude[k] == board[i][j])
+	              break;
+	            else
+	            	if(k == count){
+	            		exclude[exclude_num] = board[i][j];
+	                exclude_num += 1;
+						    }
+						}
+				  }
+			  }
 		
 		for(int m = 1; m <= 9; m++)
 			for(int l = 0; l < exclude_num; l++){
 			    if(m == exclude[l])
-			        break;
-                else
-                	if(l == exclude_num - 1){
-                		int new_board[9][9] = {0};
-                		for(int i = 0; i < 9; i++)
-                		    for(int j = 0; j < 9; j++)
-                		        new_board[i][j] = board[i][j];
-                		new_board[idx[0]][idx[1]] = m;
-			            solveSudoku(new_board, ans, ans_num);
-					}
+			      break;
+          else
+          	if(l == exclude_num - 1){
+          		int new_board[9][9] = {0};
+          		
+          		for(int i = 0; i < 9; i++)
+        		    for(int j = 0; j < 9; j++)
+        		      new_board[i][j] = board[i][j];
+        		      
+	          	new_board[idx[0]][idx[1]] = m;
+	            solveSudoku(new_board, ans, ans_num);
+					  }
 			}
 	}
 
 	else{
 		for(int i = 0; i < 9; i++)
-            for(int j = 0; j < 9; j++)
-	    	    ans[i][j] = board[i][j];
+      for(int j = 0; j < 9; j++)
+	      ans[i][j] = board[i][j];
 
 		ans_num[0] += 1;
 	}
 }
 
-void checkValidation(int puzzle[9][9], int emptyCnt, int genNum){
-    gen_puzzle(emptyCnt);
-    genNum += 1;
+void checkValidation(int puzzle[9][9], int emptyCnt, int genNum)
+{
+  gen_puzzle(emptyCnt);
+  genNum += 1;
 	
 	// check the solution
 	int ans[9][9] = {0};
 	int ans_num[1] = {0};
+
 	solveSudoku(puzzle, ans, ans_num);
+
 	if(ans_num[0] != 1)
-  	    checkValidation(puzzle, emptyCnt, genNum);
+    checkValidation(puzzle, emptyCnt, genNum);
 	else{
 		cout << "This is the " << genNum << "-th puzzle:\n";
 		showMap(puzzle);
-        cout << "This is the solution:\n";
-        showMap(ans);
-    }
+    cout << "This is the solution:\n";
+    showMap(ans);
+  }
 }
 
